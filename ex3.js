@@ -1,5 +1,4 @@
-
-
+alert(765);
 let eulerlist = () => {
     let a = parseInt(document.getElementById("a1").value);
     let b = parseInt(document.getElementById("b1").value);
@@ -54,5 +53,5 @@ let listEuler3 = (a, l) => {
             }
         }
     }
-    return sum;
+    return sum;
 }
