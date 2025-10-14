@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Regular DOM vs Shadow DOM</title>
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    <h2>Its All About Me Click Below </h2>
+    
+
+    <div class="container">
+      <!-- Regular DOM -->
+      <div class="section">
+        <h4 class="regular-title">Name</h4>
+        <div id="regular-box" class="regular-box">Click</div>
+      </div>
+
+      <!-- Shadow DOM -->
+      <div class="section">
+        <h4 class="shadow-title">Details</h4>
+        <shadow-box></shadow-box>
+      </div>
+    </div>
+
+    <script>
+      // Regular DOM box behavior
+      const regularBox = document.querySelector('#regular-box');
+      regularBox.addEventListener('click', () => {
+        if (regularBox.textContent === 'Click') {
+          regularBox.textContent = 'Rehan';
+          regularBox.style.background = 'linear-gradient(145deg, #95d5b2, #52b788)';
+          regularBox.style.boxShadow = '0 0 20px #52b788';
+          regularBox.style.transform = 'scale(1.05)';
+        } else {
+          regularBox.textContent = 'Click';
+          regularBox.style.background = 'linear-gradient(145deg, #a8dadc, #48cae4)';
+          regularBox.style.boxShadow = '0 4px 12px rgba(0,0,0,0.2)';
+          regularBox.style.transform = 'scale(1)';
+        }
+      });
+
+      // Shadow DOM custom element
+      class ShadowBox extends HTMLElement {
+        constructor() {
+          super();
+          this.attachShadow({ mode: 'open' });
+
+          this.shadowRoot.innerHTML = `
+            <style>
+              #box {
+                width: 220px;
+                height: 100px;
+                background: linear-gradient(145deg, #f94144, #f3722c);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                border-radius: 12px;
+                color: white;
+                font-weight: bold;
+                font-family: 'Segoe UI', Arial, sans-serif;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+                cursor: pointer;
+                transition: all 0.4s ease;
+                text-shadow: 0 0 6px rgba(255,255,255,0.6);
+              }
+
+              #box:hover {
+                transform: scale(1.05);
+                box-shadow: 0 0 18px rgba(255, 94, 98, 0.6);
+              }
+            </style>
+
+            <div id="box">Personal</div>
+          `;
+
+          const box = this.shadowRoot.querySelector('#box');
+          box.addEventListener('click', () => {
+            if (box.textContent === 'Personal') {
+              box.textContent = 'Student at DBS';
+              box.style.background = 'linear-gradient(145deg, #90be6d, #43aa8b)';
+              box.style.boxShadow = '0 0 20px #43aa8b';
+            } else {
+              box.textContent = 'Personal';
+              box.style.background = 'linear-gradient(145deg, #f94144, #f3722c)';
+              box.style.boxShadow = '0 4px 12px rgba(0,0,0,0.3)';
+            }
+          });
+        }
+      }
+
+      customElements.define('shadow-box', ShadowBox);
+    </script>
+  </body>
+</html>
